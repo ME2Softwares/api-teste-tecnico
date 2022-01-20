@@ -19,3 +19,13 @@ $router->get('/', function () use ($router) {
 
 $router->post('users', 'UserController@store');
 $router->post('authenticate', 'UserController@login');
+
+$router->group(['middleware' => 'auth:api'], function () use ($router) {
+    $router->group(['prefix' => 'quotes'], function () use ($router) {
+        $router->get('/', 'QuoteController@index');
+        $router->get('/{id}', 'QuoteController@show');
+        $router->post('/', 'QuoteController@store');
+        $router->put('/{id}', 'QuoteController@update');
+        $router->delete('/{id}', 'QuoteController@destroy');
+    });
+});
